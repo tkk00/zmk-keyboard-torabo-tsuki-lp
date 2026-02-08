@@ -53,7 +53,7 @@
             wait-ms = <0>;
             tap-ms = <0>;
             #binding-cells = <0>;
-            bindings = <&tog_off MOUSE>;
+            bindings = <&tog_off 6>;
             label = "exit_AML";
         };
 
