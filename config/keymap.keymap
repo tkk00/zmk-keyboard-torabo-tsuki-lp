@@ -1,4 +1,4 @@
-#include <behaviors.dtsi>
+j#include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
@@ -66,9 +66,9 @@
             bindings = <
 &trans  &trans            &trans            &trans      &trans      &trans                      &trans          &trans         &trans            &trans             &trans         &trans
 &trans  &kp F1               &kp F2                   &kp F3           &kp F4           &kp F5                  &kp LC(LG(LEFT_ARROW))  &kp HOME                 &kp UP_ARROW            &kp END            &kp LC(LG(RIGHT_ARROW))     &trans
-&trans  LEFT_CONTROL F6  &mt LS(LEFT_CONTROL) F7  &mt LEFT_ALT F8  &mt LEFT_WIN F9  &mt LEFT_CONTROL F10      &trans  &trans  &kp LC(LEFT_ARROW)      &kp LEFT_ARROW           &kp DOWN                &kp RIGHT          &kp LC(RIGHT)     &trans
-&trans  LEFT_SHIFT       &kp INS                  &kp JP_DQUOTE    &kp LG(SLASH)    &kp F11               &kp F12           &kp DELETE  &trans  &kp LG(TAB)             &kp LC(PAGE_UP)          &kp LG(LS(LEFT_ARROW))  &kp LC(PAGE_DOWN)  &kp PAGE_UP  &trans
-&trans  LEFT_CONTROL     &kp LEFT_WIN             &kp LEFT_ALT     &kp LANGUAGE_2   &kp SPACE             &kp LANGUAGE_1  &mt LEFT_WIN BACKSPACE  &mt RIGHT_ALT BACKSPACE         &trans        &trans            &trans             &kp PAGE_DOWN         &trans
+&trans  &kp LEFT_CONTROL F6  &mt LS(LEFT_CONTROL) F7  &mt LEFT_ALT F8  &mt LEFT_WIN F9  &mt LEFT_CONTROL F10      &trans  &trans  &kp LC(LEFT_ARROW)      &kp LEFT_ARROW           &kp DOWN                &kp RIGHT          &kp LC(RIGHT)     &trans
+&trans  &kp LEFT_SHIFT       &kp INS                  &kp JP_DQUOTE    &kp LG(SLASH)    &kp F11               &kp F12           &kp DELETE  &trans  &kp LG(TAB)             &kp LC(PAGE_UP)          &kp LG(LS(LEFT_ARROW))  &kp LC(PAGE_DOWN)  &kp PAGE_UP  &trans
+&trans  &kp LEFT_CONTROL     &kp LEFT_WIN             &kp LEFT_ALT     &kp LANGUAGE_2   &kp SPACE             &kp LANGUAGE_1  &m,t LEFT_WIN BACKSPACE  &mt RIGHT_ALT BACKSPACE         &trans        &trans            &trans             &kp PAGE_DOWN         &trans
             >;
         };
 
