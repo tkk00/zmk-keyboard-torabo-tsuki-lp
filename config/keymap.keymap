@@ -36,12 +36,13 @@
         MB4 {
             bindings = <&mkp MB4>;
             key-positions = <33 34>;
-            layers = <2>;
+            layers = <6>;
         };
 
         MB5 {
             bindings = <&mkp MB5>;
             key-positions = <34 35>;
+            layers = <6>;
         };
     };
 
@@ -61,7 +62,7 @@
         layer_1 {
             bindings = <
 &trans  &trans            &trans            &trans         &trans          &trans                                                     &trans                   &trans        &trans             &trans         &trans                &trans
-&trans  &kp EXCLAMATION   &kp LEFT_BRACKET  &kp HASH       &kp DOLLAR      &kp PERCENT                                                &kp EQUAL                &kp CARET     &kp DOUBLE_QUOTES  &kp ASTRK      &kp LEFT_PARENTHESIS  &trans
+&trans  &kp EXCLAMATION   &kp LEFT_BRACKET  &kp HASH       &kp DOLLAR      &kp PERCENT                                                &kp EQUAL                &kp CARET     &kp DOUBLE_QUOTES  &kp ASTERISK      &kp LEFT_PARENTHESIS  &trans
 &trans  &kp NUMBER_1      &kp NUMBER_2      &kp NUMBER_3   &kp NUMBER_4    &kp NUMBER_5       &trans          &trans                  &kp NUMBER_6             &kp NUMBER_7  &kp NUMBER_8       &kp NUMBER_9   &kp NUMBER_0          &trans
 &trans  &kp SEMICOLON     &kp SINGLE_QUOTE  &kp AMPERSAND  &kp AT_SIGN     &kp JP_UNDERSCORE  &kp JP_PIPE     &mt RIGHT_ALT TAB       &kp UNDER                &kp COLON     &kp RIGHT_BRACKET  &kp BACKSLASH  &kp LEFT_BRACE        &trans
 &trans  &kp LEFT_CONTROL  &kp LEFT_WIN      &kp LEFT_ALT   &kp LANGUAGE_2  &kp SPACE          &kp LANGUAGE_1  &mt LEFT_WIN BACKSPACE  &mt RIGHT_ALT BACKSPACE  &trans        &trans             &trans         &kp PLUS              &trans
@@ -102,13 +103,13 @@
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                   &trans  &trans  &trans  &trans  &trans  &trans
-&trans  BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4  &trans  &trans  &trans  &trans  &trans  &trans  &kp C_MUTE  &trans
+&trans  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4  &trans  &trans  &trans  &trans  &trans  &trans  &kp C_MUTE  &trans
 &trans  &sys_reset  &bootloader  &bt BT_CLR  &trans  &trans  &trans  &trans  &trans  &kp LC(PAGE_UP)  &trans  &kp LC(PAGE_DOWN)  &kp C_VOLUME_UP  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &kp C_VOLUME_DOWN  &trans
             >;
         };
 
-        layer_6 {z
+        layer_6 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans    &trans    &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans    &trans    &trans  &trans
