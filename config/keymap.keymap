@@ -47,6 +47,7 @@
             layers = <6>;
         };
     };
+
     macros {
         exit_AML: exit_AML {
             compatible = "zmk,behavior-macro";
@@ -65,9 +66,9 @@
             bindings = <&macro_param_1to1 &kp MACRO_PLACEHOLDER &exit_AML>;
             label = "KP_exit_AML";
         };
-　　};
+    };
 　　
-　　behaviors {
+    behaviors {
         tog_off: toggle_layer_off {
             compatible = "zmk,behavior-toggle-layer";
             #binding-cells = <1>;
