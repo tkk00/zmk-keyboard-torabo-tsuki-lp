@@ -1,5 +1,7 @@
 /* ===== スクロール基本速度（変更可能） ===== */
+
 #undef ZMK_POINTING_DEFAULT_SCRL_VAL
+
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 1
 
 #include <input/processors.dtsi>
@@ -48,6 +50,16 @@
             key-positions = <34 35>;
             layers = <6>;
         };
+
+        kp_esc {
+            bindings = <&kp ESCAPE>;
+            key-positions = <13 14>;
+        };
+
+        tap_caps {
+            bindings = <&kp CAPSLOCK>;
+            key-positions = <39 40>;
+        };
     };
 
     macros {
@@ -77,6 +89,7 @@
             flavor = "balanced";
             tapping-term-ms = <200>;
             bindings = <&kp>, <&kp>;
+
             display-name = "Mod-Tap";
         };
 
@@ -85,17 +98,6 @@
             #binding-cells = <1>;
             display-name = "Toggle Layer Off";
             toggle-mode = "off";
-        };
-
-        mt_exit_AML_on_tap: mt_exit_AML_on_tap {
-            compatible = "zmk,behavior-hold-tap";
-            label = "MT_exit_AML_ON_TAP";
-            bindings = <&kp>, <&kp_exit_AML>;
-
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            flavor = "balanced";
-            quick-tap-ms = <200>;
         };
     };
 
