@@ -1,17 +1,57 @@
+/* ===== スクロール基本速度（変更可能） ===== */
+#undef ZMK_POINTING_DEFAULT_SCRL_VAL
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 10
+
 #include "torabo_tsuki_lp.dtsi"
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 #include <input/processors/runtime-input-processor.dtsi>
 
-&trackball_listener {
-    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT) &mouse_runtime_input_processor &scroll_runtime_input_processor>;
+&zip_temp_layer {
+    excluded-positions = <
+        33 // j
+        34 // k
+        35 // l
+        39 // shift
+        53 // ctrl
+    >;
+    require-prior-idle-ms = <200>;
 };
 
-&scroll_runtime_input_processor {
-        x-codes = <INPUT_REL_X>;
-		y-codes = <INPUT_REL_Y>;
-		xy-to-scroll-enabled;
-};
+&trackball_listener {
+    compatible = "zmk,input-listener";
+    device = <&trackball>;
+
+    input-processors = <
+        &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
+        &mouse_runtime_input_processor
+    >;
+
+    scroller {
+        layers = <2 5>;
+        input-processors = <
+            &zip_xy_to_scroll_mapper
+            &scroll_runtime_input_processor
+            &zip_scroll_scaler 1 16
+        >;
+    };
+
+    /* レイヤー2：スナイプ（微調整） */
+    snipe_handler {
+        layers = <1 3>;
+        input-processors =
+            <&zip_xy_scaler 1 3>;
+        process-next;
+    };
+
+    /* オートマウス一時レイヤー */
+    temp_layer_handler {
+        layers = <0 1 3 4 7>;
+        input-processors =
+            <&zip_temp_layer 6 100000>;
+    };
+}
+
 
 &size_s_transform {
     col-offset = <7>;
