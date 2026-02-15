@@ -57,7 +57,7 @@
         };
 
         tap_caps {
-            bindings = <&kp CAPSLOCK>;
+            bindings = <&kp LS(CAPSLOCK)>;
             key-positions = <39 40>;
         };
     };
