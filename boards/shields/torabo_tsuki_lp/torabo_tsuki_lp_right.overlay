@@ -1,14 +1,10 @@
-/* ===== スクロール基本速度（変更可能） ===== */
-#undef ZMK_POINTING_DEFAULT_SCRL_VAL
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 1
-
 #include "torabo_tsuki_lp.dtsi"
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 #include <input/processors/runtime-input-processor.dtsi>
 
 &zip_temp_layer {
-    excluded-positions = 
+    excluded-positions = <
         33 // j
         34 // k
         35 // l
