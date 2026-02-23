@@ -116,21 +116,21 @@
 
         layer_1 {
             bindings = <
-&trans  &trans             &trans            &trans         &trans          &trans                                                     &trans                   &trans        &trans             &trans         &trans                &trans
-&trans  &kp EXCLAMATION    &kp LEFT_BRACKET  &kp HASH       &kp DOLLAR      &kp PERCENT                                                &kp EQUAL                &kp CARET     &kp DOUBLE_QUOTES  &kp ASTERISK   &kp LEFT_PARENTHESIS  &trans
-&trans  &kp NUMBER_1       &kp NUMBER_2      &kp NUMBER_3   &kp NUMBER_4    &kp NUMBER_5       &trans          &trans                  &kp NUMBER_6             &kp NUMBER_7  &kp NUMBER_8       &kp NUMBER_9   &kp NUMBER_0          &trans
-&trans  &kp SEMICOLON      &kp SINGLE_QUOTE  &kp AMPERSAND  &kp AT_SIGN     &kp JP_UNDERSCORE  &kp JP_PIPE     &mt RIGHT_ALT TAB       &kp UNDER                &kp COLON     &kp RIGHT_BRACKET  &kp BACKSLASH  &kp LEFT_BRACE        &trans
-&trans  &kp RIGHT_CONTROL  &kp LEFT_WIN      &kp LEFT_ALT   &kp LANGUAGE_2  &kp SPACE          &kp LANGUAGE_1  &mt LEFT_WIN BACKSPACE  &mt RIGHT_ALT BACKSPACE  &trans        &trans             &trans         &kp PLUS              &trans
+&trans  &trans             &trans            &trans         &trans          &trans                                                     &trans               &trans        &trans             &trans         &trans                &trans
+&trans  &kp EXCLAMATION    &kp LEFT_BRACKET  &kp HASH       &kp DOLLAR      &kp PERCENT                                                &kp EQUAL            &kp CARET     &kp DOUBLE_QUOTES  &kp ASTERISK   &kp LEFT_PARENTHESIS  &trans
+&trans  &kp NUMBER_1       &kp NUMBER_2      &kp NUMBER_3   &kp NUMBER_4    &kp NUMBER_5       &trans          &trans                  &kp NUMBER_6         &kp NUMBER_7  &kp NUMBER_8       &kp NUMBER_9   &kp NUMBER_0          &trans
+&trans  &kp SEMICOLON      &kp SINGLE_QUOTE  &kp AMPERSAND  &kp AT_SIGN     &kp JP_UNDERSCORE  &kp JP_PIPE     &mt RIGHT_ALT TAB       &kp UNDER            &kp COLON     &kp RIGHT_BRACKET  &kp BACKSLASH  &kp LEFT_BRACE        &trans
+&trans  &kp RIGHT_CONTROL  &kp LEFT_WIN      &kp LEFT_ALT   &kp LANGUAGE_2  &kp SPACE          &kp LANGUAGE_1  &mt LEFT_WIN BACKSPACE  &mt RIGHT_ALT ENTER  &trans        &trans             &trans         &kp PLUS              &trans
             >;
         };
 
         layer_2 {
             bindings = <
-&trans  &trans               &trans        &trans         &trans           &trans                                             &trans                   &trans           &trans                  &trans             &trans                   &trans
-&trans  &kp F1               &kp F2        &kp F3         &kp F4           &kp F5                                             &kp LC(LG(LEFT_ARROW))   &kp HOME         &kp UP_ARROW            &kp END            &kp LC(LG(RIGHT_ARROW))  &trans
-&trans  &mt LEFT_CONTROL F6  &kp F7        &kp F8         &mt LEFT_WIN F9  &kp F10    &trans          &trans                  &kp LC(LEFT_ARROW)       &kp LEFT_ARROW   &kp DOWN                &kp RIGHT          &kp LC(RIGHT)            &trans
-&trans  &kp LEFT_SHIFT       &kp INS       &kp LG(SLASH)  &kp F11          &kp F12    &kp DELETE      &trans                  &kp LG(TAB)              &kp LC(PAGE_UP)  &kp LG(LS(LEFT_ARROW))  &kp LC(PAGE_DOWN)  &kp PAGE_UP              &trans
-&trans  &kp LEFT_CONTROL     &kp LEFT_WIN  &kp LEFT_ALT   &kp LANGUAGE_2   &kp SPACE  &kp LANGUAGE_1  &mt LEFT_WIN BACKSPACE  &mt RIGHT_ALT BACKSPACE  &trans           &trans                  &trans             &kp PAGE_DOWN            &trans
+&trans  &trans               &trans        &trans         &trans           &trans                                             &trans                  &trans           &trans                  &trans             &trans                   &trans
+&trans  &kp F1               &kp F2        &kp F3         &kp F4           &kp F5                                             &kp LC(LG(LEFT_ARROW))  &kp HOME         &kp UP_ARROW            &kp END            &kp LC(LG(RIGHT_ARROW))  &trans
+&trans  &mt LEFT_CONTROL F6  &kp F7        &kp F8         &mt LEFT_WIN F9  &kp F10    &trans          &trans                  &kp LC(LEFT_ARROW)      &kp LEFT_ARROW   &kp DOWN                &kp RIGHT          &kp LC(RIGHT)            &trans
+&trans  &kp LEFT_SHIFT       &kp INS       &kp LG(SLASH)  &kp F11          &kp F12    &kp DELETE      &trans                  &kp LG(TAB)             &kp LC(PAGE_UP)  &kp LG(LS(LEFT_ARROW))  &kp LC(PAGE_DOWN)  &kp PAGE_UP              &trans
+&trans  &kp LEFT_CONTROL     &kp LEFT_WIN  &kp LEFT_ALT   &kp LANGUAGE_2   &kp SPACE  &kp LANGUAGE_1  &mt LEFT_WIN BACKSPACE  &mt RIGHT_ALT ENTER     &trans           &trans                  &trans             &kp PAGE_DOWN            &trans
             >;
         };
 
