@@ -6,6 +6,8 @@ manifest:
       url-base: https://github.com/sekigon-gonnoc
     - name: cormoran
       url-base: https://github.com/cormoran
+    - name: kot149
+      url-base: https://github.com/kot149
   projects:
     - name: zmk
       remote: cormoran
@@ -20,7 +22,7 @@ manifest:
       revision: main
     - name: zmk-driver-paw3222
       remote: sekigon-gonnoc
-      revision: torabo-tsuki
+      revision: main
     - name: zmk-feature-cdc-acm-bootloader-trigger
       remote: sekigon-gonnoc
       revision: v0.2
@@ -39,5 +41,8 @@ manifest:
     - name: zmk-module-runtime-input-processor
       remote: cormoran
       revision: main
+    - name: zmk-scroll-snap
+      remote: kot149
+      revision: v1
   self:
     path: config
