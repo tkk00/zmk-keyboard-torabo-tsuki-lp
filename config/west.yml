@@ -10,6 +10,8 @@ manifest:
       url-base: https://github.com/kot149
     - name: tkk00
       url-base: https://github.com/tkk00
+    - name: beryu
+      url-base: https://github.com/beryu
       
   projects:
     - name: zmk
@@ -24,7 +26,7 @@ manifest:
       remote: sekigon-gonnoc
       revision: main
     - name: zmk-driver-paw3222
-      remote: tkk00
+      remote: beryu
       revision: main
     - name: zmk-feature-cdc-acm-bootloader-trigger
       remote: sekigon-gonnoc
