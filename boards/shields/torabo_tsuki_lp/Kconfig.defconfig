@@ -17,7 +17,7 @@ config ZMK_MOUSE
     default y
 
 config PAW3222_SMART_SCROLL
-    default y if ZMK_SPLIT_ROLE_CENTRAL
+    default y
 
 config PAW3222_BASE_SENSITIVITY_PERCENT
     default 5
