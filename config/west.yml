@@ -8,11 +8,6 @@ manifest:
       url-base: https://github.com/cormoran
     - name: kot149
       url-base: https://github.com/kot149
-    - name: tkk00
-      url-base: https://github.com/tkk00
-    - name: beryu
-      url-base: https://github.com/beryu
-      
   projects:
     - name: zmk
       remote: cormoran
@@ -26,7 +21,7 @@ manifest:
       remote: sekigon-gonnoc
       revision: main
     - name: zmk-driver-paw3222
-      remote: beryu
+      remote: sekigon-gonnoc
       revision: main
     - name: zmk-feature-cdc-acm-bootloader-trigger
       remote: sekigon-gonnoc
