@@ -29,8 +29,7 @@ manifest:
       revision: main
 
     - name: zmk-driver-iqs7211e
-      remote: sekigon-gonnoc
-      revision: main
+      remote: tkk00
 
     - name: zmk-feature-cdc-acm-bootloader-trigger
       remote: sekigon-gonnoc
