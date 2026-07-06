@@ -1,24 +1,16 @@
-#include "torabo_tsuki_lp.dtsi"
-#include <input/processors.dtsi>
-#include <dt-bindings/zmk/input_transform.h>
-#include <scroll-snap.dtsi>
-
-/* =============================================
- * 左手トラックパッド（IQS7211E）の入力設定
- * ============================================= */
-
 &pointing_listener {
+    /* 通常のカーソル移動（反時計回り90度を目指す） */
     input-processors = <
         &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
         &zip_xy_scaler 1 3
     >;
 
+    /* 2本指スクロール（常時有効） */
     scroller {
         input-processors = <
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
-            &zip_xy_scaler 1 6
+            &zip_xy_scaler 1 5
             &zip_xy_to_scroll_mapper
-            &zip_scroll_snap
         >;
     };
 };
