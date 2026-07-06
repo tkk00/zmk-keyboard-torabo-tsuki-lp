@@ -1,5 +1,18 @@
-&pointing_listener {
-    /* 通常のカーソル移動（反時計回り90度を目指す） */
+#include "torabo_tsuki_lp.dtsi"
+#include <input/processors.dtsi>
+#include <dt-bindings/zmk/input_transform.h>
+#include <scroll-snap.dtsi>
+
+/* =============================================
+ * 左手トラックパッド（IQS7211E）の入力設定
+ * ============================================= */
+
+/* pointing_device に対して直接リスナーを適用 */
+&pointing_device {
+    /* 
+     * 通常のカーソル移動 
+     * 反時計回り90度 + 速度調整 
+     */
     input-processors = <
         &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
         &zip_xy_scaler 1 3
