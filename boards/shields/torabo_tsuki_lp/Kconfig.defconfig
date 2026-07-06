@@ -21,6 +21,41 @@ config ZMK_POINTING
 config IQS7211E
     default y
 
+# =============================================
+# ポインティングデバイス全般の設定
+# =============================================
+
+# カーソル移動速度の調整（100が標準）
+# 小さくするほど遅くなります
+config ZMK_POINTING_SPEED_MULTIPLIER
+    default 35
+
+# スクロール速度の調整
+# 小さくするほど遅くなります
+config ZMK_POINTING_SCROLL_SPEED_MULTIPLIER
+    default 45
+
+# =============================================
+# IQS7211E トラックパッド専用設定
+# =============================================
+
+# 慣性スクロール（指を離した後も少し続く機能）
+config IQS7211E_SCROLLER_INERTIA
+    default y
+
+# 慣性スクロールの減衰速度
+# 小さいほど素早く止まります（自然な感じにするなら850〜920程度）
+config IQS7211E_SCROLLER_INERTIA_DECAY_PERMILLE
+    default 880
+
+# 慣性スクロールが止まる閾値
+config IQS7211E_SCROLLER_INERTIA_STOP_THRESHOLD_Q8
+    default 75
+
+# =============================================
+# トラックボール（PAW3222）関連設定
+# =============================================
+
 config PAW3222_SMART_SCROLL
     default y
 
@@ -30,4 +65,4 @@ config PAW3222_BASE_SENSITIVITY_PERCENT
 config PAW3222_SCROLL_SENSITIVITY
     default 2
 
-endif
+endif　
