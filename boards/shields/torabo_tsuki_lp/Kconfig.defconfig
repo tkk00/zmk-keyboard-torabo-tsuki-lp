@@ -65,4 +65,4 @@ config PAW3222_BASE_SENSITIVITY_PERCENT
 config PAW3222_SCROLL_SENSITIVITY
     default 2
 
-endif　
+endif
