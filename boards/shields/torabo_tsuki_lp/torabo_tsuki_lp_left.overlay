@@ -1,13 +1,27 @@
 #include "torabo_tsuki_lp.dtsi"
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
+#include <scroll-snap.dtsi>
 
 /* =============================================
  * 左手トラックパッド（IQS7211E）の入力設定
  * ============================================= */
 
-/* カーソル移動の座標変換リスナー */
 &pointing_listener {
-    /* 反時計回りに90度回転させる設定 */
-    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)>;
+    /* 
+     * 現在：左→上、下→右 ということは時計回り90度ずれている
+     * → 反時計回り90度に修正 
+     */
+    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_Y_INVERT)>;
+};
+
+/* 必要に応じてスクロールスナップも左手で有効化 */
+&pointing_listener {
+    scroller {
+        layers = <2 5>;
+        input-processors = <
+            &zip_xy_to_scroll_mapper
+            &zip_scroll_snap
+        >;
+    };
 };
