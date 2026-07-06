@@ -2,6 +2,12 @@
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 
+/* =============================================
+ * 左手トラックパッド（IQS7211E）の入力設定
+ * ============================================= */
+
+/* カーソル移動の座標変換リスナー */
 &pointing_listener {
-    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
+    /* 反時計回りに90度回転させる設定 */
+    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)>;
 };
