@@ -1,4 +1,4 @@
-&pointing_device {
+&pointing_device_split {
     input-processors = <
         &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
         &zip_xy_scaler 1 3
