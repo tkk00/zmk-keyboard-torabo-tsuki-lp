@@ -11,7 +11,7 @@
         compatible = "zmk,input-listener";
         device = <&pointing_device_split>;
         status = "okay";
-        input-processors = 
+        input-processors = <
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
             &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
             &zip_xy_scaler 1 2
