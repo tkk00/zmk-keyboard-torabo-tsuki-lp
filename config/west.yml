@@ -30,6 +30,7 @@ manifest:
 
     - name: zmk-driver-iqs7211e
       remote: tkk00
+      revision: feature/tap-to-drag
 
     - name: zmk-feature-cdc-acm-bootloader-trigger
       remote: sekigon-gonnoc
