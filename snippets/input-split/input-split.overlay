@@ -1,3 +1,5 @@
+/* 元のコード（torabo_tsuki_lp.dtsi に pointing_device_split テンプレートを移設したため、
+   新規ノード宣言から &label{} 形式の参照に変更。参考として残しています）
 /{
     split_inputs {
         #address-cells = <1>;
@@ -9,4 +11,11 @@
             device = <&pointing_device>;
         };
     };
+};
+*/
+
+/* 有効化と物理センサーへの配線のみを担当（input-processorsは _left.overlay 側で設定） */
+&pointing_device_split {
+    status = "okay";
+    device = <&pointing_device>;
 };
