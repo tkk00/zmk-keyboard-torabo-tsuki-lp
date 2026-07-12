@@ -14,8 +14,8 @@
         device = <&pointing_device_split>;
         status = "okay";
         input-processors = <
-            &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_Y_INVERT)
-            &zip_xy_scaler 1 3
+            &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
+            &zip_xy_scaler 1 2
             &zip_scroll_scaler 1 5
         >;
     };
