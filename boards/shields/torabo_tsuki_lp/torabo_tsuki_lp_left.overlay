@@ -2,11 +2,6 @@
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 
-/* 転送前（周辺機側）でカーソル移動とスクロールを処理 */
-&pointing_device_split {
-    input-processors = <
-        &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_Y_INVERT)
-        &zip_xy_scaler 1 3
-        &zip_scroll_scaler 1 5
-    >;
+&pointing_listener {
+    input-processors = <&zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)>;
 };
