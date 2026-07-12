@@ -73,6 +73,11 @@
             key-positions = <22 21>;
             layers = <1>;
         };
+
+        tap_ins {
+            bindings = <&kp INS>;
+            key-positions = <40 41>;
+        };
     };
 
     macros {
