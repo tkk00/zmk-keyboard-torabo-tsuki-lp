@@ -9,7 +9,9 @@
         34 // k
         35 // l
         39 // shift
-        53 // ctrl
+        48 // ,
+        49 // .
+        53 // ctrl  
     >;
     require-prior-idle-ms = <200>;
 };
