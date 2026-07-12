@@ -92,6 +92,20 @@
         status = "disabled";
     };
 
+    /* split転送されるポインティングデバイスのテンプレート（左右共通・既定は無効） */
+    /* input-processorsをboard overlay側(_left/_right)で設定できるようにするための器 */
+    /* snippets/input-splitから移設 */
+    split_inputs {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        pointing_device_split: pointing_device_split@0 {
+            compatible = "zmk,input-split";
+            reg = <0>;
+            status = "disabled";
+        };
+    };
+
     vbatt: vbatt {
         // Disable default battery monitoring
         status = "disabled";
