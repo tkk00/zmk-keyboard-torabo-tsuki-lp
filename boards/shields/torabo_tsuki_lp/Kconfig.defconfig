@@ -56,20 +56,20 @@ config IQS7211E_SCROLLER_INERTIA_DECAY_PERMILLE
 config IQS7211E_SCROLLER_INERTIA_STOP_THRESHOLD_Q8
     default 75
 
-
-* 2本指で横スクロールを行った場合、戻る進むボタンが発動する。
+# 2本指で横スクロールを行った場合、戻る・進むボタンを送信する
 config IQS7211E_HORIZONTAL_NAVIGATION
     default y
 
-# スクロール方向の調整（ここではYだが、snippetsで90度回転している為、結果的に横方向のスクロールになる。）
+# スクロール方向の調整
+# snippetsで90度回転しているため、Y軸を使用すると実際には横スクロールになります。
 config IQS7211E_NAVIGATION_USE_Y_AXIS
     default y
 
-# スワイプの向き（右スワイプ＝進む、左スワイプ＝戻る、が逆だったら）コメントアウトを外す。
+# スワイプ方向を反転する場合はこちらを有効化
 # config IQS7211E_NAVIGATION_INVERT
 #     default y
 
-#スワイプの必要距離（デフォルト200）
+# スワイプの必要距離（デフォルト200）
 # config IQS7211E_NAVIGATION_THRESHOLD
 #     default 150
 
