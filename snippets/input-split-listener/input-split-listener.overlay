@@ -1,4 +1,14 @@
 /{
+    /* Pinch zoom: convert driver's synthetic BTN_FORWARD/BTN_BACK taps
+       into Ctrl + numpad plus/minus (layout independent browser zoom) */
+    zip_zoom_behaviors: zip_zoom_behaviors {
+        compatible = "zmk,input-processor-behaviors";
+        #input-processor-cells = <0>;
+        type = <INPUT_EV_KEY>;
+        codes = <INPUT_BTN_FORWARD INPUT_BTN_BACK>;
+        bindings = <&kp LC(KP_PLUS) &kp LC(KP_MINUS)>;
+    };
+
     split_inputs {
         #address-cells = <1>;
         #size-cells = <0>;
@@ -12,10 +22,11 @@
         device = <&pointing_device_split>;
         status = "okay";
         input-processors = <
+            &zip_zoom_behaviors
             &zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
             &zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)
             &zip_xy_scaler 1 2
-            &zip_scroll_scaler 1 10
+            &zip_scroll_scaler 1 5
             &zip_scroll_snap
         >;
     };
