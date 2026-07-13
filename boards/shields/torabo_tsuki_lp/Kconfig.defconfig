@@ -73,6 +73,19 @@ config IQS7211E_NAVIGATION_USE_Y_AXIS
 # config IQS7211E_NAVIGATION_THRESHOLD
 #     default 150
 
+# 2本指検出の途切れを吸収する猶予時間 (デフォルト100ms、揺れがひどければ150に)
+# config IQS7211E_TWO_FINGER_GRACE_MS
+#     default 150
+
+# ピンチズームを有効化
+config IQS7211E_PINCH_ZOOM
+    default y
+
+# ナビゲーションの発動距離を下げる (200 -> 120: 短いスワイプで発動)
+config IQS7211E_NAVIGATION_THRESHOLD
+    default 120
+
+
 # =============================================
 # トラックボール（PAW3222）関連設定
 # =============================================
