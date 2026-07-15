@@ -1,17 +1,4 @@
 /{
-    /* Pinch zoom: convert driver's synthetic zoom button taps into
-       Ctrl + numpad plus/minus (layout independent browser zoom).
-       Note: 0x115 / 0x116 are used as raw codes because Zephyr 3.5 has no
-       INPUT_BTN_FORWARD / INPUT_BTN_BACK macros. They match the values the
-       driver sends (see iqs7211e_send_zoom). */
-    zip_zoom_behaviors: zip_zoom_behaviors {
-        compatible = "zmk,input-processor-behaviors";
-        #input-processor-cells = <0>;
-        type = <INPUT_EV_KEY>;
-        codes = <0x115 0x116>;
-        bindings = <&kp LC(KP_PLUS) &kp LC(KP_MINUS)>;
-    };
-
     split_inputs {
         #address-cells = <1>;
         #size-cells = <0>;
