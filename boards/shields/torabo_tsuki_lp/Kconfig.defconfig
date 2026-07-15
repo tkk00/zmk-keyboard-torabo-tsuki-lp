@@ -78,8 +78,8 @@ config IQS7211E_NAVIGATION_USE_Y_AXIS
 #     default 150
 
 # ピンチズームを有効化
-config IQS7211E_PINCH_ZOOM
-    default y
+# config IQS7211E_PINCH_ZOOM
+#     default y
 
 # ナビゲーションの発動距離を下げる (200 -> 120: 短いスワイプで発動)
 config IQS7211E_NAVIGATION_THRESHOLD
