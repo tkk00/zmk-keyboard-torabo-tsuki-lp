@@ -50,7 +50,7 @@ config IQS7211E_SCROLLER_INERTIA
 # 慣性スクロールの減衰速度
 # 小さいほど素早く止まります（850〜920程度が自然）
 config IQS7211E_SCROLLER_INERTIA_DECAY_PERMILLE
-    default 950
+    default 980
 
 # 慣性スクロールが止まる閾値
 config IQS7211E_SCROLLER_INERTIA_STOP_THRESHOLD_Q8
@@ -66,7 +66,7 @@ config IQS7211E_NAVIGATION_USE_Y_AXIS
     default y
 
 # スワイプ方向を反転する場合はこちらを有効化
-# config IQS7211E_NAVIGATION_INVERT
+# config IQS7211E_NAV　IGATION_INVERT
 #     default y
 
 # スワイプの必要距離（デフォルト200）
@@ -83,7 +83,7 @@ config IQS7211E_NAVIGATION_USE_Y_AXIS
 
 # ナビゲーションの発動距離を下げる (200 -> 120: 短いスワイプで発動)
 config IQS7211E_NAVIGATION_THRESHOLD
-    default 200
+    default 120
 
 
 # =============================================
