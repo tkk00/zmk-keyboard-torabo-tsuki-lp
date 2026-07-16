@@ -50,7 +50,7 @@ config IQS7211E_SCROLLER_INERTIA
 # 慣性スクロールの減衰速度
 # 小さいほど素早く止まります（850〜920程度が自然）
 config IQS7211E_SCROLLER_INERTIA_DECAY_PERMILLE
-    default 880
+    default 920
 
 # 慣性スクロールが止まる閾値
 config IQS7211E_SCROLLER_INERTIA_STOP_THRESHOLD_Q8
