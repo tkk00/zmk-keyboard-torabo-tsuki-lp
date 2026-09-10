@@ -40,15 +40,13 @@
         compatible = "zmk,combos";
 
         tap_mb4 {
-            bindings = <&mkp MB4>;
+            bindings = <&kp LANGUAGE_1>;
             key-positions = <33 34>;
-            layers = <6>;
         };
 
         tap_mb5 {
-            bindings = <&mkp MB5>;
-            key-positions = <34 35>;
-            layers = <6>;
+            bindings = <&kp LANGUAGE_2>;
+            key-positions = <27 28>;
         };
 
         kp_esc {

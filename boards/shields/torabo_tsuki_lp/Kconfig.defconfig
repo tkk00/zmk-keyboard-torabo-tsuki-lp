@@ -1,3 +1,4 @@
+
 if SHIELD_TORABO_TSUKI_LP_LEFT || SHIELD_TORABO_TSUKI_LP_RIGHT
 
 config ZMK_KEYBOARD_NAME
@@ -14,89 +15,5 @@ config INPUT
 
 config ZMK_MOUSE
     default y
-
-config ZMK_POINTING
-    default y
-
-config IQS7211E
-    default y
-
-# =============================================
-# ポインティングデバイス全般の設定
-# =============================================
-
-# カーソル移動速度の調整（100が標準値）
-# 小さくするほど遅くなります
-config ZMK_POINTING_SPEED_MULTIPLIER
-    int "Pointer speed multiplier"
-    default 35
-    range 10 200
-
-# スクロール速度の調整
-# 小さくするほど遅くなります
-config ZMK_POINTING_SCROLL_SPEED_MULTIPLIER
-    int "Pointer scroll speed multiplier"
-    default 45
-    range 10 200
-
-# =============================================
-# IQS7211E トラックパッド専用設定
-# =============================================
-
-# 慣性スクロール（指を離した後も少し続く機能）
-config IQS7211E_SCROLLER_INERTIA
-    default y
-
-# 慣性スクロールの減衰速度
-# 小さいほど素早く止まります（850〜920程度が自然）
-config IQS7211E_SCROLLER_INERTIA_DECAY_PERMILLE
-    default 980
-
-# 慣性スクロールが止まる閾値
-config IQS7211E_SCROLLER_INERTIA_STOP_THRESHOLD_Q8
-    default 75
-
-# 2本指で横スクロールを行った場合、戻る・進むボタンを送信する
-config IQS7211E_HORIZONTAL_NAVIGATION
-    default y
-
-# スクロール方向の調整
-# snippetsで90度回転しているため、Y軸を使用すると実際には横スクロールになります。
-config IQS7211E_NAVIGATION_USE_Y_AXIS
-    default y
-
-# スワイプ方向を反転する場合はこちらを有効化
-# config IQS7211E_NAV　IGATION_INVERT
-#     default y
-
-# スワイプの必要距離（デフォルト200）
-# config IQS7211E_NAVIGATION_THRESHOLD
-#     default 150
-
-# 2本指検出の途切れを吸収する猶予時間 (デフォルト100ms、揺れがひどければ150に)
-# config IQS7211E_TWO_FINGER_GRACE_MS
-#     default 150
-
-# ピンチズームを有効化
-# config IQS7211E_PINCH_ZOOM
-#     default y
-
-# ナビゲーションの発動距離を下げる (200 -> 120: 短いスワイプで発動)
-config IQS7211E_NAVIGATION_THRESHOLD
-    default 120
-
-
-# =============================================
-# トラックボール（PAW3222）関連設定
-# =============================================
-
-config PAW3222_SMART_SCROLL
-    default y
-
-config PAW3222_BASE_SENSITIVITY_PERCENT
-    default 5
-
-config PAW3222_SCROLL_SENSITIVITY
-    default 2
 
 endif
