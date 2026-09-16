@@ -1,0 +1,59 @@
+
+menuconfig IQS7211E
+    bool "IQS7211E capcacitive touch sensor"
+  select I2C
+    help
+      Enable IQS7211E capcacitive touch sensor.
+
+if IQS7211E
+
+config IQS7211E_TAP_EDGE_MARGIN_PERMILLE
+    int "Tap ignore edge margin (permille)"
+    range 0 450
+    default 80
+    help
+      Edge margin used to suppress tap/click detection in scroller mode.
+      80 means 8 percent margin from each edge.
+
+config IQS7211E_SCROLLER_HWHEEL_ZONE_MIN_PERMILLE
+    int "HWheel zone start (permille)"
+    range 0 1000
+    default 0
+    help
+      Start position of the horizontal scroll zone in permille of Y size.
+      This value and MAX define a band [MIN, MAX).
+
+config IQS7211E_SCROLLER_HWHEEL_ZONE_MAX_PERMILLE
+    int "HWheel zone end (permille)"
+    range 0 1000
+    default 150
+    help
+      End position of the horizontal scroll zone in permille of Y size.
+      This value and MIN define a band [MIN, MAX).
+
+config IQS7211E_SCROLLER_INERTIA
+    bool "Enable inertia scrolling in scroller mode"
+    default n
+    help
+      Keep sending wheel events after finger release when the device is in
+      scroller mode. Uses fixed-point integer math (no FPU required).
+
+config IQS7211E_SCROLLER_INERTIA_DECAY_PERMILLE
+    int "Inertia decay coefficient (permille)"
+    range 1 999
+    default 920
+    depends on IQS7211E_SCROLLER_INERTIA
+    help
+      Velocity multiplier applied every 10ms tick.
+      920 means velocity = velocity * 0.92 per tick.
+
+config IQS7211E_SCROLLER_INERTIA_STOP_THRESHOLD_Q8
+    int "Inertia stop threshold (Q8 wheel units per 10ms)"
+    range 1 4096
+    default 96
+    depends on IQS7211E_SCROLLER_INERTIA
+    help
+      Inertia stops immediately when absolute velocity goes below this value.
+      Q8 means 256 equals 1 wheel unit per 10ms.
+
+endif

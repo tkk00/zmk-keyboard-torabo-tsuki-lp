@@ -1,4 +1,7 @@
-/{
+#include <dt-bindings/zmk/keys.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
     split_inputs {
         #address-cells = <1>;
         #size-cells = <0>;
@@ -9,13 +12,21 @@
         };
     };
 
+    trackpad_tap_behaviors: trackpad_tap_behaviors {
+        compatible = "zmk,input-processor-behaviors";
+        #input-processor-cells = <0>;
+        codes = <INPUT_BTN_3 INPUT_BTN_4>;
+        bindings = <&kp LA(LEFT_ARROW) &kp LA(RIGHT_ARROW)>;
+    };
+
     pointing_device_split_listener: pointing_device_split_listener {
         compatible = "zmk,input-listener";
         device = <&pointing_device_split>;
         status = "okay";
         input-processors = <
+            &trackpad_tap_behaviors
             &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
-            &zip_scroll_scaler 1 2
+            &zip_scroll_scaler 1 3
         >;
-     };
+    };
 };
