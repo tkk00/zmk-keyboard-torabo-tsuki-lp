@@ -3,5 +3,5 @@ build:
   kconfig: Kconfig
   settings:
     board_root: .
-    dts_root: .
+    dts_root: drivers/iqs7211e
     snippet_root: .

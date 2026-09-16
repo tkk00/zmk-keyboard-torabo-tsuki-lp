@@ -57,6 +57,11 @@ class TrackpadNavigationTests(unittest.TestCase):
 
 
 class TrackpadConfigurationTests(unittest.TestCase):
+    def test_vendored_driver_devicetree_binding_is_registered(self):
+        module = (REPO_ROOT / "zephyr" / "module.yml").read_text(encoding="utf-8")
+
+        self.assertIn("dts_root: drivers/iqs7211e", module)
+
     def test_scroll_is_one_third_speed_and_vertical_only(self):
         listener = (
             REPO_ROOT
