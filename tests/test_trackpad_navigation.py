@@ -57,6 +57,17 @@ class TrackpadNavigationTests(unittest.TestCase):
 
 
 class TrackpadConfigurationTests(unittest.TestCase):
+    def test_central_input_thread_has_room_for_navigation_behavior(self):
+        central_conf = (
+            REPO_ROOT
+            / "boards"
+            / "shields"
+            / "torabo_tsuki_lp"
+            / "torabo_tsuki_lp_right.conf"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("CONFIG_INPUT_THREAD_STACK_SIZE=4096", central_conf)
+
     def test_vendored_driver_devicetree_binding_is_registered(self):
         module = (REPO_ROOT / "zephyr" / "module.yml").read_text(encoding="utf-8")
 
