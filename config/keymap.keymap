@@ -136,7 +136,7 @@
 &kp TAB    &kp Q                 &kp W         &kp E               &kp R             &kp T                                                             &kp Y                   &kp U   &kp I        &kp O       &lt 5 P                 &kp BSPC
 &kp CAPS   &kp A                 &kp S         &kp D               &mt LEFT_WIN F    &kp G        &trans                       &trans                  &kp H                   &kp J   &kp K        &kp L       &lt 5 MINUS             &kp SQT
 &kp LSHFT  &mt LEFT_SHIFT Z      &kp X         &kp C               &kp V             &kp B        &kp DELETE                   &mt RIGHT_ALT TAB       &kp N                   &kp M   &lt 5 COMMA  &kp DOT     &mt LEFT_SHIFT SLASH    &kp RSHFT
-&kp LCTRL  &kp LC(LEFT_CONTROL)  &kp LEFT_WIN  &mt LEFT_ALT GRAVE  &lt 1 LANGUAGE_2  &lt 2 SPACE  &mt LEFT_CONTROL LANGUAGE_1  &mt LEFT_ALT BACKSPACE  &mt LEFT_CONTROL ENTER  &trans  &trans       &kp ESCAPE  &mt RIGHT_CONTROL INT1  &kp RCTRL
+&kp LCTRL  &kp LC(LEFT_CONTROL)  &kp LEFT_WIN  &mt LEFT_ALT GRAVE  &lt 1 LANGUAGE_2  &lt 2 SPACE  &mt LEFT_SHIFT LANGUAGE_1  &mt LEFT_ALT BACKSPACE  &mt LEFT_CONTROL ENTER  &trans  &trans       &kp ESCAPE  &mt RIGHT_CONTROL INT1  &kp RCTRL
             >;
         };
 
@@ -146,7 +146,7 @@
 &trans  &kp EXCLAMATION      &kp LEFT_BRACKET  &kp HASH       &kp DOLLAR                   &kp PERCENT                                                             &kp EQUAL               &kp CARET     &kp DOUBLE_QUOTES  &kp ASTERISK  &kp LEFT_PARENTHESIS        &trans
 &trans  &kp NUMBER_1         &kp NUMBER_2      &kp NUMBER_3   &mt LEFT_WIN NUMBER_4        &kp NUMBER_5       &trans                       &trans                  &kp NUMBER_6            &kp NUMBER_7  &kp NUMBER_8       &kp NUMBER_9  &kp NUMBER_0                &trans
 &trans  &mt LEFT_SHIFT SEMI  &kp SINGLE_QUOTE  &kp AMPERSAND  &kp AT_SIGN                  &kp JP_UNDERSCORE  &kp JP_PIPE                  &mt LEFT_WIN TAB        &kp UNDER               &kp COLON     &kp COMMA          &kp PERIOD    &mt RIGHT_SHIFT LEFT_BRACE  &trans
-&trans  &kp RIGHT_CONTROL    &kp LEFT_WIN      &kp LEFT_ALT   &mt LEFT_CONTROL LANGUAGE_2  &kp SPACE          &mt LEFT_CONTROL LANGUAGE_1  &mt LEFT_ALT BACKSPACE  &mt LEFT_CONTROL ENTER  &trans        &trans             &trans        &mt RC(PLUS) PLUS           &trans
+&trans  &kp RIGHT_CONTROL    &kp LEFT_WIN      &kp LEFT_ALT   &mt LEFT_CONTROL LANGUAGE_2  &kp SPACE          &mt LEFT_SHIFT LANGUAGE_1  &mt LEFT_ALT BACKSPACE  &mt LEFT_CONTROL ENTER  &trans        &trans             &trans        &mt RC(PLUS) PLUS           &trans
             >;
         };
 
@@ -156,7 +156,7 @@
 &trans  &kp F1            &kp F2        &kp F3         &kp F4           &kp F5                                             &kp LC(LG(LEFT_ARROW))  &kp HOME         &kp UP_ARROW            &kp END            &kp LC(LG(RIGHT_ARROW))  &trans
 &trans  &kp F6            &kp F7        &kp F8         &mt LEFT_WIN F9  &kp F10    &trans          &trans                  &kp LC(LEFT_ARROW)      &kp LEFT_ARROW   &kp DOWN                &kp RIGHT          &kp LC(RIGHT)            &trans
 &trans  &kp LEFT_SHIFT    &kp INS       &kp LG(SLASH)  &kp F11          &kp F12    &kp DELETE      &mt LEFT_WIN TAB        &kp LG(TAB)             &kp LC(PAGE_UP)  &kp LG(LS(LEFT_ARROW))  &kp LC(PAGE_DOWN)  &kp PAGE_UP              &trans
-&trans  &kp LEFT_CONTROL  &kp LEFT_WIN  &kp LEFT_ALT   &kp LANGUAGE_2   &kp SPACE  &kp LANGUAGE_1  &mt LEFT_ALT BACKSPACE  &mt LEFT_CONTROL ENTER  &trans           &trans                  &kp PRINTSCREEN    &kp PAGE_DOWN            &trans
+&trans  &kp LEFT_CONTROL  &kp LEFT_WIN  &kp LEFT_ALT   &kp LANGUAGE_2   &kp SPACE  &mt LEFT_SHIFT LANGUAGE_1  &mt LEFT_ALT BACKSPACE  &mt LEFT_CONTROL ENTER  &trans           &trans                  &kp PRINTSCREEN    &kp PAGE_DOWN            &trans
             >;
         };
 
@@ -193,8 +193,8 @@
         layer_6 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans     &trans     &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans     &trans     &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &mkp MB1  &mkp MB3   &mkp MB2   &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &mkp MB1  &mkp MB3  &mkp MB2  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans     &trans     &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &kp LC(C)  &kp LC(V)  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans     &trans     &trans  &trans
             >;

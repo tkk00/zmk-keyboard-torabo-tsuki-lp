@@ -30,30 +30,17 @@ class TrackpadNavigationTests(unittest.TestCase):
         self.assertNotIn("is_clicking", tap_path)
         self.assertNotIn("INPUT_BTN_0", tap_path)
 
-    def test_taps_emit_distinct_back_and_forward_markers(self):
+    def test_single_tap_is_emitted_without_double_tap_window(self):
         source = driver_source()
 
         self.assertRegex(
             source,
             r"#define\s+IQS7211E_SINGLE_TAP_CODE\s+INPUT_BTN_3\b",
         )
-        self.assertRegex(
-            source,
-            r"#define\s+IQS7211E_DOUBLE_TAP_CODE\s+INPUT_BTN_4\b",
-        )
-
-    def test_double_tap_cancels_the_pending_single_tap(self):
-        source = driver_source()
-        double_tap = re.search(
-            r"if\s*\([^\n]*tap_interval[^\n]*\)\s*\{(?P<body>.*?)\n\s*\}\s*else\s*\{",
-            source,
-            flags=re.DOTALL,
-        )
-
-        self.assertIsNotNone(double_tap)
-        body = double_tap.group("body")
-        self.assertIn("k_work_cancel_delayable(&data->tap_work)", body)
-        self.assertIn("IQS7211E_DOUBLE_TAP_CODE", body)
+        self.assertNotIn("IQS7211E_DOUBLE_TAP_CODE", source)
+        self.assertNotIn("IQS7211E_TAP_SEQUENCE_MS", source)
+        self.assertNotIn("tap_work", source)
+        self.assertRegex(source, r"if \(tap_allowed[^}]+iqs7211e_emit_click\(data, IQS7211E_SINGLE_TAP_CODE\)")
 
 
 class TrackpadConfigurationTests(unittest.TestCase):
@@ -98,7 +85,7 @@ class TrackpadConfigurationTests(unittest.TestCase):
         self.assertIn("CONFIG_IQS7211E_SCROLLER_HWHEEL_ZONE_MAX_PERMILLE=0", left_conf)
         self.assertIn("v-invert;", trackpad)
 
-    def test_tap_markers_invoke_alt_arrow_behaviors(self):
+    def test_layer_specific_tap_and_scroll_behaviors(self):
         listener = (
             REPO_ROOT
             / "snippets"
@@ -106,8 +93,24 @@ class TrackpadConfigurationTests(unittest.TestCase):
             / "input-split-listener.overlay"
         ).read_text(encoding="utf-8")
 
-        self.assertIn("codes = <INPUT_BTN_3 INPUT_BTN_4>;", listener)
-        self.assertIn("bindings = <&kp LA(LEFT_ARROW) &kp LA(RIGHT_ARROW)>;", listener)
+        self.assertIn("codes = <INPUT_BTN_3>;", listener)
+        self.assertIn("bindings = <&kp LA(LEFT_ARROW)>;", listener)
+        self.assertIn("layers = <1>;", listener)
+        self.assertIn("bindings = <&kp LC(N0)>;", listener)
+        self.assertIn("bindings = <&kp LC(EQUAL) &kp LC(MINUS)>;", listener)
+        self.assertIn("layers = <2>;", listener)
+        self.assertIn("bindings = <&kp C_MUTE>;", listener)
+        self.assertIn("bindings = <&kp C_VOLUME_UP &kp C_VOLUME_DOWN>;", listener)
+
+    def test_auto_mouse_clicks_move_to_iop_and_thumb_hold_is_shift(self):
+        keymap = (REPO_ROOT / "config" / "keymap.keymap").read_text(encoding="utf-8")
+        right = (REPO_ROOT / "boards" / "shields" / "torabo_tsuki_lp" / "torabo_tsuki_lp_right.overlay").read_text(encoding="utf-8")
+        layer6 = keymap.split("layer_6 {")[1].split("};", 1)[0]
+        self.assertIn("&mkp MB1  &mkp MB3  &mkp MB2", layer6)
+        self.assertEqual(layer6.count("&mkp MB"), 3)
+        self.assertRegex(right, r"excluded-positions\s*=\s*<\s*20\s*// i\s*21\s*// o\s*22\s*// p")
+        layer0 = keymap.split("layer_0 {")[1].split("};", 1)[0]
+        self.assertIn("&mt LEFT_SHIFT LANGUAGE_1", layer0)
 
 
 if __name__ == "__main__":

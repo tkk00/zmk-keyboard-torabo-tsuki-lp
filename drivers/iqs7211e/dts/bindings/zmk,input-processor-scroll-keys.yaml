@@ -1,0 +1,11 @@
+description: Convert vertical wheel steps to key taps
+
+compatible: "zmk,input-processor-scroll-keys"
+
+include: ip_zero_param.yaml
+
+properties:
+  bindings:
+    type: phandle-array
+    required: true
+    description: Positive wheel binding followed by negative wheel binding

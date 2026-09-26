@@ -35,10 +35,8 @@ LOG_MODULE_REGISTER(iqs7211e, CONFIG_ZMK_LOG_LEVEL);
 #define IQS7211E_SCROLL_AXIS_NONE 0
 #define IQS7211E_SCROLL_AXIS_VERTICAL 1
 #define IQS7211E_SCROLL_AXIS_HORIZONTAL 2
-#define IQS7211E_TAP_SEQUENCE_MS 400
 #define IQS7211E_CLICK_MS 50
 #define IQS7211E_SINGLE_TAP_CODE INPUT_BTN_3
-#define IQS7211E_DOUBLE_TAP_CODE INPUT_BTN_4
 
 struct iqs7211e_config {
     struct i2c_dt_spec i2c;
@@ -55,7 +53,6 @@ struct iqs7211e_data {
     const struct device *dev;
     struct k_work motion_work;
     struct k_work_delayable click_work;
-    struct k_work_delayable tap_work;
     struct gpio_callback motion_cb;
     uint16_t product_number;
     bool init_complete;
@@ -64,8 +61,6 @@ struct iqs7211e_data {
     bool previous_valid;
     // Gesture state tracking
     int64_t last_touch_time;
-    int64_t last_tap_time;
-    bool single_tap_pending;
     int16_t tap_start_x, tap_start_y;
     int16_t finger_2_prev_x, finger_2_prev_y;
     bool finger_2_prev_valid;
@@ -652,19 +647,6 @@ static void iqs7211e_click_work_handler(struct k_work *work) {
     }
 }
 
-static void iqs7211e_tap_work_handler(struct k_work *work) {
-    struct k_work_delayable *dwork = k_work_delayable_from_work(work);
-    struct iqs7211e_data *data = CONTAINER_OF(dwork, struct iqs7211e_data, tap_work);
-
-    if (!data->single_tap_pending) {
-        return;
-    }
-
-    data->single_tap_pending = false;
-    LOG_DBG("Single tap - back marker");
-    iqs7211e_emit_click(data, IQS7211E_SINGLE_TAP_CODE);
-}
-
 static int iqs7211e_interrupt_configure(const struct device *dev, gpio_flags_t flags) {
     const struct iqs7211e_config *cfg = dev->config;
 
@@ -844,24 +826,11 @@ static void iqs7211e_motion_work_handler(struct k_work *work) {
                 // Single finger tap handling
                 int16_t tap_distance = abs(data->previous_x - data->tap_start_x) + abs(data->previous_y - data->tap_start_y);
 
-                LOG_DBG("Touch duration: %lld ms, tap distance: %d, single pending: %d",
-                        touch_duration, tap_distance, data->single_tap_pending);
+                LOG_DBG("Touch duration: %lld ms, tap distance: %d", touch_duration, tap_distance);
 
                 if (tap_allowed && touch_duration < 200 && tap_distance < 50) { // Quick tap with minimal movement
-                    int64_t tap_interval = current_time - data->last_tap_time;
-
-                    if (data->single_tap_pending && tap_interval < IQS7211E_TAP_SEQUENCE_MS) {
-                        LOG_DBG("Double tap - forward marker");
-                        (void)k_work_cancel_delayable(&data->tap_work);
-                        data->single_tap_pending = false;
-                        iqs7211e_emit_click(data, IQS7211E_DOUBLE_TAP_CODE);
-                    } else {
-                        LOG_DBG("Single tap - wait for double tap window");
-                        data->single_tap_pending = true;
-                        (void)k_work_reschedule(&data->tap_work,
-                                                K_MSEC(IQS7211E_TAP_SEQUENCE_MS));
-                    }
-                    data->last_tap_time = current_time;
+                    LOG_DBG("Single tap - emit marker immediately");
+                    iqs7211e_emit_click(data, IQS7211E_SINGLE_TAP_CODE);
                 } else if (!tap_allowed) {
                     LOG_DBG("Single finger tap ignored near sensor edge");
                 }
@@ -1029,7 +998,6 @@ static int iqs7211e_init(const struct device *dev) {
 
     k_work_init(&data->motion_work, iqs7211e_motion_work_handler);
     k_work_init_delayable(&data->click_work, iqs7211e_click_work_handler);
-    k_work_init_delayable(&data->tap_work, iqs7211e_tap_work_handler);
 #if defined(CONFIG_IQS7211E_SCROLLER_INERTIA) && CONFIG_IQS7211E_SCROLLER_INERTIA
     k_work_init_delayable(&data->inertia_work, iqs7211e_inertia_work_handler);
 #endif
@@ -1103,8 +1071,6 @@ static int iqs7211e_pm_action(const struct device *dev, enum pm_device_action ac
 
     switch (action) {
     case PM_DEVICE_ACTION_SUSPEND:
-        (void)k_work_cancel_delayable(&data->tap_work);
-        data->single_tap_pending = false;
         (void)k_work_cancel_delayable(&data->click_work);
         if (data->pending_click_code != 0) {
             input_report_key(dev, data->pending_click_code, 0, true, K_FOREVER);
