@@ -974,7 +974,6 @@ static int iqs7211e_init(const struct device *dev) {
     data->init_complete = false;
     data->previous_valid = false;
     data->pending_click_code = 0;
-    data->single_tap_pending = false;
     data->scroll_was_active = false;
     data->x_resolution = 0;
     data->y_resolution = 0;

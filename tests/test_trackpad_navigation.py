@@ -40,6 +40,7 @@ class TrackpadNavigationTests(unittest.TestCase):
         self.assertNotIn("IQS7211E_DOUBLE_TAP_CODE", source)
         self.assertNotIn("IQS7211E_TAP_SEQUENCE_MS", source)
         self.assertNotIn("tap_work", source)
+        self.assertNotIn("single_tap_pending", source)
         self.assertRegex(source, r"if \(tap_allowed[^}]+iqs7211e_emit_click\(data, IQS7211E_SINGLE_TAP_CODE\)")
 
 
