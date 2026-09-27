@@ -61,7 +61,7 @@ class TrackpadConfigurationTests(unittest.TestCase):
 
         self.assertIn("dts_root: drivers/iqs7211e", module)
 
-    def test_scroll_is_one_third_speed_and_vertical_only(self):
+    def test_scroll_is_quarter_speed_with_immediate_first_step_and_vertical_only(self):
         listener = (
             REPO_ROOT
             / "snippets"
@@ -82,7 +82,9 @@ class TrackpadConfigurationTests(unittest.TestCase):
             / "input-trackpad-mini.overlay"
         ).read_text(encoding="utf-8")
 
-        self.assertIn("&zip_scroll_scaler 1 3", listener)
+        self.assertIn("&trackpad_responsive_scroll 1 4", listener)
+        self.assertEqual(listener.count("&zip_scroll_scaler 1 3"), 2)
+        self.assertIn("track-remainders;", listener)
         self.assertIn("CONFIG_IQS7211E_SCROLLER_HWHEEL_ZONE_MAX_PERMILLE=0", left_conf)
         self.assertIn("v-invert;", trackpad)
 

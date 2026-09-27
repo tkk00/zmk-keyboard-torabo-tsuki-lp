@@ -1,0 +1,11 @@
+description: Scale wheel input while emitting the first step immediately
+
+compatible: "zmk,input-processor-responsive-scroll"
+
+include: ip_two_param.yaml
+
+properties:
+  reset-after-ms:
+    type: int
+    default: 150
+    description: Idle time that starts a new scroll gesture
