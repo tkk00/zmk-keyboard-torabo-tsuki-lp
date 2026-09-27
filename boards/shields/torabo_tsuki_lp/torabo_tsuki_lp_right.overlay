@@ -9,7 +9,7 @@
     excluded-positions = <
         20 // i
         21 // o
-        22 // p
+        33 // j
         39 // shift
         53 // ctrl
     >;
