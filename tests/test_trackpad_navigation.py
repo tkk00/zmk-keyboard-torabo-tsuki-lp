@@ -96,25 +96,27 @@ class TrackpadConfigurationTests(unittest.TestCase):
             / "input-split-listener.overlay"
         ).read_text(encoding="utf-8")
 
-        self.assertIn("codes = <INPUT_BTN_3>;", listener)
-        self.assertIn("bindings = <&kp LA(LEFT_ARROW)>;", listener)
+        self.assertIn("&trackpad_transition_guard", listener)
+        self.assertEqual(listener.count("&trackpad_transition_guard"), 3)
+        self.assertIn("bindings = <&kp LA(LEFT_ARROW) &kp LC(N0) &kp C_MUTE>;", listener)
+        self.assertIn("transition-guard-ms = <100>;", listener)
+        self.assertIn("zoom-key-position = <56>;", listener)
+        self.assertIn("volume-key-position = <57>;", listener)
         self.assertIn("layers = <1>;", listener)
-        self.assertIn("bindings = <&kp LC(N0)>;", listener)
         self.assertIn("bindings = <&kp LC(EQUAL) &kp LC(MINUS)>;", listener)
         self.assertIn("layers = <2>;", listener)
-        self.assertIn("bindings = <&kp C_MUTE>;", listener)
         self.assertIn("bindings = <&kp C_VOLUME_UP &kp C_VOLUME_DOWN>;", listener)
 
-    def test_auto_mouse_clicks_use_jio_and_thumb_hold_is_shift(self):
+    def test_auto_mouse_clicks_use_jop_and_thumb_hold_is_shift(self):
         keymap = (REPO_ROOT / "config" / "keymap.keymap").read_text(encoding="utf-8")
         right = (REPO_ROOT / "boards" / "shields" / "torabo_tsuki_lp" / "torabo_tsuki_lp_right.overlay").read_text(encoding="utf-8")
         layer6 = keymap.split("layer_6 {")[1].split("};", 1)[0]
         rows = [re.findall(r"&(?:trans|mkp MB[123]|kp LC\([CV]\))", line)
                 for line in layer6.splitlines() if line.startswith("&")]
-        self.assertEqual(rows[1][8:11], ["&mkp MB3", "&mkp MB2", "&trans"])
+        self.assertEqual(rows[1][8:12], ["&trans", "&mkp MB3", "&mkp MB2", "&trans"])
         self.assertEqual(rows[2][9:12], ["&mkp MB1", "&trans", "&trans"])
         self.assertEqual(layer6.count("&mkp MB"), 3)
-        self.assertRegex(right, r"excluded-positions\s*=\s*<\s*20\s*// i\s*21\s*// o\s*33\s*// j")
+        self.assertRegex(right, r"excluded-positions\s*=\s*<\s*21\s*// o\s*22\s*// p\s*33\s*// j")
         layer0 = keymap.split("layer_0 {")[1].split("};", 1)[0]
         self.assertIn("&mt LEFT_SHIFT LANGUAGE_1", layer0)
 

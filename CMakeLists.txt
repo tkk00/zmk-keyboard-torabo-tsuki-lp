@@ -7,6 +7,7 @@ if(CONFIG_SHIELD_TORABO_TSUKI_LP_LEFT OR CONFIG_SHIELD_TORABO_TSUKI_LP_RIGHT)
   zephyr_library_sources(src/board.c src/mini_trackpad_init_reg.c)
   zephyr_library_sources_ifdef(CONFIG_SHIELD_TORABO_TSUKI_LP_RIGHT src/input_processor_scroll_keys.c)
   zephyr_library_sources_ifdef(CONFIG_SHIELD_TORABO_TSUKI_LP_RIGHT src/input_processor_responsive_scroll.c)
+  zephyr_library_sources_ifdef(CONFIG_SHIELD_TORABO_TSUKI_LP_RIGHT src/input_processor_trackpad_transition.c)
   zephyr_library_sources_ifdef(
     CONFIG_IQS7211E
     drivers/iqs7211e/src/iqs7211e.c

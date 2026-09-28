@@ -1,0 +1,28 @@
+description: Keep trackpad taps on one layer and discard input during layer transitions
+
+compatible: "zmk,input-processor-trackpad-transition"
+
+include: ip_zero_param.yaml
+
+properties:
+  bindings:
+    type: phandle-array
+    required: true
+    description: Tap bindings for base, zoom and volume modes, in that order
+  zoom-layer:
+    type: int
+    required: true
+  volume-layer:
+    type: int
+    required: true
+  zoom-key-position:
+    type: int
+    required: true
+    description: Position of the hold-tap key that enables the zoom layer
+  volume-key-position:
+    type: int
+    required: true
+    description: Position of the hold-tap key that enables the volume layer
+  transition-guard-ms:
+    type: int
+    default: 100
