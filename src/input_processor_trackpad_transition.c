@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MIT */
 
 #define DT_DRV_COMPAT zmk_input_processor_trackpad_transition
+#define IQS7211E_SCROLL_TOUCH_CODE INPUT_BTN_4
 
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
@@ -35,10 +36,16 @@ struct trackpad_transition_config {
 struct trackpad_transition_data {
     bool tap_pending;
     enum trackpad_mode tap_mode;
+    bool scroll_touch_active;
+    bool scroll_mode_latched;
+    bool scroll_interrupted;
+    uint32_t scroll_layer_generation;
+    enum trackpad_mode scroll_mode;
 };
 
 /* Uptime is 32-bit here so the read/write is atomic on the MCU. */
 static atomic_t last_relevant_layer_change_ms;
+static atomic_t layer_change_generation;
 static atomic_t zoom_key_down;
 static atomic_t volume_key_down;
 
@@ -49,6 +56,7 @@ static int trackpad_layer_changed(const zmk_event_t *event) {
     if (change && (change->layer == DT_INST_PROP(0, zoom_layer) ||
                    change->layer == DT_INST_PROP(0, volume_layer))) {
         atomic_set(&last_relevant_layer_change_ms, (atomic_val_t)k_uptime_get_32());
+        atomic_inc(&layer_change_generation);
     }
     if (position) {
         if (position->position == DT_INST_PROP(0, zoom_key_position)) {
@@ -110,10 +118,44 @@ static int trackpad_transition_handle_event(const struct device *dev, struct inp
     ARG_UNUSED(param1);
     ARG_UNUSED(param2);
 
+    if (event->type == INPUT_EV_KEY && event->code == IQS7211E_SCROLL_TOUCH_CODE) {
+        data->scroll_touch_active = event->value != 0;
+        if (data->scroll_touch_active) {
+            data->scroll_mode_latched = false;
+            data->scroll_interrupted = false;
+        }
+        return ZMK_INPUT_PROC_STOP;
+    }
+
     if (event->type == INPUT_EV_REL) {
-        if (event->code == INPUT_REL_HWHEEL ||
-            (event->code == INPUT_REL_WHEEL && in_transition_guard(cfg))) {
+        if (event->code == INPUT_REL_HWHEEL) {
             return ZMK_INPUT_PROC_STOP;
+        }
+        if (event->code == INPUT_REL_WHEEL) {
+            if (data->scroll_mode_latched &&
+                data->scroll_layer_generation != (uint32_t)atomic_get(&layer_change_generation)) {
+                data->scroll_interrupted = true;
+            }
+            if (data->scroll_interrupted || in_transition_guard(cfg)) {
+                return ZMK_INPUT_PROC_STOP;
+            }
+            if (!data->scroll_touch_active) {
+                /* Only ordinary scrolling may continue with inertia after lift. */
+                if (!data->scroll_mode_latched || data->scroll_mode != TRACKPAD_BASE ||
+                    current_mode(cfg) != TRACKPAD_BASE) {
+                    return ZMK_INPUT_PROC_STOP;
+                }
+                return ZMK_INPUT_PROC_CONTINUE;
+            }
+            if (!data->scroll_mode_latched) {
+                data->scroll_mode = current_mode(cfg);
+                data->scroll_mode_latched = true;
+                data->scroll_layer_generation = (uint32_t)atomic_get(&layer_change_generation);
+            }
+            if (data->scroll_mode != current_mode(cfg)) {
+                data->scroll_interrupted = true;
+                return ZMK_INPUT_PROC_STOP;
+            }
         }
         return ZMK_INPUT_PROC_CONTINUE;
     }

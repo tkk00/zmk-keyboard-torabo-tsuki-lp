@@ -37,6 +37,7 @@ LOG_MODULE_REGISTER(iqs7211e, CONFIG_ZMK_LOG_LEVEL);
 #define IQS7211E_SCROLL_AXIS_HORIZONTAL 2
 #define IQS7211E_CLICK_MS 50
 #define IQS7211E_SINGLE_TAP_CODE INPUT_BTN_3
+#define IQS7211E_SCROLL_TOUCH_CODE INPUT_BTN_4
 
 struct iqs7211e_config {
     struct i2c_dt_spec i2c;
@@ -66,6 +67,8 @@ struct iqs7211e_data {
     bool finger_2_prev_valid;
     uint16_t pending_click_code;
     bool scroll_was_active;
+    bool scroll_touch_active;
+    bool gesture_scrolled;
     uint16_t x_resolution;
     uint16_t y_resolution;
     bool resolution_valid;
@@ -198,7 +201,7 @@ static void iqs7211e_update_inertia_velocity(struct iqs7211e_data *data, uint16_
     iqs7211e_select_inertia_axis(data, axis, &velocity_q8, &last_time);
 
     if (*last_time <= 0 || current_time <= *last_time) {
-        sample_q8 = (int32_t)wheel_delta << IQS7211E_Q8_SHIFT;
+        sample_q8 = (int32_t)wheel_delta * IQS7211E_Q8_ONE;
     } else {
         int64_t dt_ms = current_time - *last_time;
 
@@ -206,7 +209,7 @@ static void iqs7211e_update_inertia_velocity(struct iqs7211e_data *data, uint16_
             dt_ms = 1;
         }
 
-        sample_q8 = ((int32_t)wheel_delta << IQS7211E_Q8_SHIFT) * IQS7211E_INERTIA_TICK_MS / (int32_t)dt_ms;
+        sample_q8 = ((int32_t)wheel_delta * IQS7211E_Q8_ONE) * IQS7211E_INERTIA_TICK_MS / (int32_t)dt_ms;
     }
 
     // A light moving-average filter prevents abrupt speed jumps.
@@ -309,6 +312,7 @@ static void iqs7211e_report_scroll(struct iqs7211e_data *data, uint16_t axis,
 
     input_report_rel(data->dev, axis, wheel_delta, true, K_FOREVER);
     data->scroll_was_active = true;
+    data->gesture_scrolled = true;
 
 #if defined(CONFIG_IQS7211E_SCROLLER_INERTIA) && CONFIG_IQS7211E_SCROLLER_INERTIA
     iqs7211e_update_inertia_velocity(data, axis, wheel_delta, current_time);
@@ -704,6 +708,15 @@ static void iqs7211e_motion_work_handler(struct k_work *work) {
 
     uint8_t finger_count = base_data.info_flags[1] & 0x03;
 
+    if (cfg->scroller_mode && (finger_count > 0) != data->scroll_touch_active) {
+        bool touching = finger_count > 0;
+        if (touching) {
+            data->gesture_scrolled = false;
+        }
+        input_report_key(dev, IQS7211E_SCROLL_TOUCH_CODE, touching, true, K_FOREVER);
+        data->scroll_touch_active = touching;
+    }
+
 #if defined(CONFIG_IQS7211E_SCROLLER_INERTIA) && CONFIG_IQS7211E_SCROLLER_INERTIA
     if (finger_count > 0 && data->inertia_running) {
         iqs7211e_stop_inertia_scroll(data);
@@ -818,7 +831,7 @@ static void iqs7211e_motion_work_handler(struct k_work *work) {
 
             if (data->finger_2_prev_valid) {
                 // Two finger tap - right click
-                if (touch_duration < 200) { // Quick tap
+                if (!data->gesture_scrolled && touch_duration < 200) { // Quick tap
                     LOG_DBG("Two finger tap - right click");
                     iqs7211e_emit_click(data, INPUT_BTN_1);
                 }
@@ -828,7 +841,7 @@ static void iqs7211e_motion_work_handler(struct k_work *work) {
 
                 LOG_DBG("Touch duration: %lld ms, tap distance: %d", touch_duration, tap_distance);
 
-                if (tap_allowed && touch_duration < 200 && tap_distance < 50) { // Quick tap with minimal movement
+                if (tap_allowed && !data->gesture_scrolled && touch_duration < 200 && tap_distance < 50) { // Quick tap with minimal movement
                     LOG_DBG("Single tap - emit marker immediately");
                     iqs7211e_emit_click(data, IQS7211E_SINGLE_TAP_CODE);
                 } else if (!tap_allowed) {
@@ -846,6 +859,7 @@ static void iqs7211e_motion_work_handler(struct k_work *work) {
         data->previous_valid = false;
         data->finger_2_prev_valid = false;
         data->scroll_was_active = false;
+        data->gesture_scrolled = false;
         data->gesture_started_near_edge = false;
         data->scroller_axis_lock = IQS7211E_SCROLL_AXIS_NONE;
     }
@@ -974,6 +988,8 @@ static int iqs7211e_init(const struct device *dev) {
     data->init_complete = false;
     data->previous_valid = false;
     data->pending_click_code = 0;
+    data->scroll_touch_active = false;
+    data->gesture_scrolled = false;
     data->scroll_was_active = false;
     data->x_resolution = 0;
     data->y_resolution = 0;
@@ -1070,6 +1086,10 @@ static int iqs7211e_pm_action(const struct device *dev, enum pm_device_action ac
 
     switch (action) {
     case PM_DEVICE_ACTION_SUSPEND:
+        if (data->scroll_touch_active) {
+            input_report_key(dev, IQS7211E_SCROLL_TOUCH_CODE, 0, true, K_FOREVER);
+            data->scroll_touch_active = false;
+        }
         (void)k_work_cancel_delayable(&data->click_work);
         if (data->pending_click_code != 0) {
             input_report_key(dev, data->pending_click_code, 0, true, K_FOREVER);

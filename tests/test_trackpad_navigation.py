@@ -43,6 +43,13 @@ class TrackpadNavigationTests(unittest.TestCase):
         self.assertNotIn("single_tap_pending", source)
         self.assertRegex(source, r"if \(tap_allowed[^}]+iqs7211e_emit_click\(data, IQS7211E_SINGLE_TAP_CODE\)")
 
+    def test_scroll_gesture_has_contact_markers_and_cannot_also_tap(self):
+        source = driver_source()
+        self.assertIn("IQS7211E_SCROLL_TOUCH_CODE INPUT_BTN_4", source)
+        self.assertIn("data->scroll_touch_active", source)
+        self.assertIn("input_report_key(dev, IQS7211E_SCROLL_TOUCH_CODE", source)
+        self.assertIn("!data->gesture_scrolled", source)
+
 
 class TrackpadConfigurationTests(unittest.TestCase):
     def test_central_input_thread_has_room_for_navigation_behavior(self):
@@ -88,6 +95,11 @@ class TrackpadConfigurationTests(unittest.TestCase):
         self.assertIn("CONFIG_IQS7211E_SCROLLER_HWHEEL_ZONE_MAX_PERMILLE=0", left_conf)
         self.assertIn("v-invert;", trackpad)
 
+    def test_inertia_is_enabled_on_the_trackpad_peripheral(self):
+        left_conf = (REPO_ROOT / "boards" / "shields" / "torabo_tsuki_lp" / "torabo_tsuki_lp_left.conf").read_text(encoding="utf-8")
+        self.assertIn("CONFIG_IQS7211E_SCROLLER_INERTIA=y", left_conf)
+        self.assertIn("CONFIG_IQS7211E_SCROLLER_INERTIA_DECAY_PERMILLE=940", left_conf)
+
     def test_layer_specific_tap_and_scroll_behaviors(self):
         listener = (
             REPO_ROOT
@@ -102,6 +114,10 @@ class TrackpadConfigurationTests(unittest.TestCase):
         self.assertIn("transition-guard-ms = <100>;", listener)
         self.assertIn("zoom-key-position = <56>;", listener)
         self.assertIn("volume-key-position = <57>;", listener)
+        transition = (REPO_ROOT / "src" / "input_processor_trackpad_transition.c").read_text(encoding="utf-8")
+        self.assertIn("event->code == IQS7211E_SCROLL_TOUCH_CODE", transition)
+        self.assertIn("data->scroll_mode_latched", transition)
+        self.assertIn("data->scroll_mode != current_mode(cfg)", transition)
         self.assertIn("layers = <1>;", listener)
         self.assertIn("bindings = <&kp LC(EQUAL) &kp LC(MINUS)>;", listener)
         self.assertIn("layers = <2>;", listener)
