@@ -50,7 +50,7 @@
         input-processors = <
             &trackpad_transition_guard
             &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
-            &trackpad_responsive_scroll 1 4
+            &trackpad_responsive_scroll 1 5
         >;
 
         zoom {

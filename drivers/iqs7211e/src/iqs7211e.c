@@ -708,6 +708,12 @@ static void iqs7211e_motion_work_handler(struct k_work *work) {
 
     uint8_t finger_count = base_data.info_flags[1] & 0x03;
 
+#if defined(CONFIG_IQS7211E_SCROLLER_INERTIA) && CONFIG_IQS7211E_SCROLLER_INERTIA
+    if (finger_count > 0 && data->inertia_running) {
+        iqs7211e_stop_inertia_scroll(data);
+    }
+#endif
+
     if (cfg->scroller_mode && (finger_count > 0) != data->scroll_touch_active) {
         bool touching = finger_count > 0;
         if (touching) {
@@ -716,12 +722,6 @@ static void iqs7211e_motion_work_handler(struct k_work *work) {
         input_report_key(dev, IQS7211E_SCROLL_TOUCH_CODE, touching, true, K_FOREVER);
         data->scroll_touch_active = touching;
     }
-
-#if defined(CONFIG_IQS7211E_SCROLLER_INERTIA) && CONFIG_IQS7211E_SCROLLER_INERTIA
-    if (finger_count > 0 && data->inertia_running) {
-        iqs7211e_stop_inertia_scroll(data);
-    }
-#endif
 
     if (finger_count == 1) {
         // Single finger handling

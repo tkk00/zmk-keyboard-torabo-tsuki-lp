@@ -68,7 +68,7 @@ class TrackpadConfigurationTests(unittest.TestCase):
 
         self.assertIn("dts_root: drivers/iqs7211e", module)
 
-    def test_scroll_is_quarter_speed_with_immediate_first_step_and_vertical_only(self):
+    def test_scroll_is_one_fifth_speed_with_immediate_first_step_and_vertical_only(self):
         listener = (
             REPO_ROOT
             / "snippets"
@@ -89,7 +89,7 @@ class TrackpadConfigurationTests(unittest.TestCase):
             / "input-trackpad-mini.overlay"
         ).read_text(encoding="utf-8")
 
-        self.assertIn("&trackpad_responsive_scroll 1 4", listener)
+        self.assertIn("&trackpad_responsive_scroll 1 5", listener)
         self.assertEqual(listener.count("&zip_scroll_scaler 1 3"), 2)
         self.assertIn("track-remainders;", listener)
         self.assertIn("CONFIG_IQS7211E_SCROLLER_HWHEEL_ZONE_MAX_PERMILLE=0", left_conf)
@@ -135,6 +135,13 @@ class TrackpadConfigurationTests(unittest.TestCase):
         self.assertRegex(right, r"excluded-positions\s*=\s*<\s*21\s*// o\s*22\s*// p\s*33\s*// j")
         layer0 = keymap.split("layer_0 {")[1].split("};", 1)[0]
         self.assertIn("&mt LEFT_SHIFT LANGUAGE_1", layer0)
+
+    def test_trackpad_layer_keys_activate_their_hold_layer_immediately(self):
+        keymap = (REPO_ROOT / "config" / "keymap.keymap").read_text(encoding="utf-8")
+        layer0 = keymap.split("layer_0 {")[1].split("};", 1)[0]
+        self.assertIn("hold-while-undecided;", keymap)
+        self.assertIn("&trackpad_lt 1 LANGUAGE_2", layer0)
+        self.assertIn("&trackpad_lt 2 SPACE", layer0)
 
 
 if __name__ == "__main__":
