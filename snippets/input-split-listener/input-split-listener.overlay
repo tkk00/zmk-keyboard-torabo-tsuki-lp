@@ -51,7 +51,16 @@
     trackpad_volume_scroll: trackpad_volume_scroll {
         compatible = "zmk,input-processor-scroll-keys";
         #input-processor-cells = <0>;
-        bindings = <&kp C_VOLUME_UP &kp C_VOLUME_DOWN>;
+        bindings = <&kp C_VOLUME_DOWN &kp C_VOLUME_UP>;
+    };
+
+    // ZMK v0.3 passes STOP from a layer override through to HID. Remap used tap
+    // buttons to a code the mouse listener ignores after the shortcut fires.
+    trackpad_consumed_taps: trackpad_consumed_taps {
+        compatible = "zmk,input-processor-code-mapper";
+        #input-processor-cells = <0>;
+        type = <INPUT_EV_KEY>;
+        map = <INPUT_BTN_3 INPUT_BTN_5 INPUT_BTN_4 INPUT_BTN_5>;
     };
 
     trackpad_responsive_scroll: trackpad_responsive_scroll {
@@ -81,6 +90,15 @@
                 &trackpad_zoom_scroll
                 &trackpad_zoom_tap
             >;
+            process-next;
+        };
+
+        zoom_consumed {
+            layers = <1>;
+            input-processors = <
+                &zip_scroll_scaler 0 1
+                &trackpad_consumed_taps
+            >;
         };
 
         volume {
@@ -91,6 +109,15 @@
                 &zip_scroll_scaler 1 3
                 &trackpad_volume_scroll
                 &trackpad_mute_tap
+            >;
+            process-next;
+        };
+
+        volume_consumed {
+            layers = <2>;
+            input-processors = <
+                &zip_scroll_scaler 0 1
+                &trackpad_consumed_taps
             >;
         };
     };

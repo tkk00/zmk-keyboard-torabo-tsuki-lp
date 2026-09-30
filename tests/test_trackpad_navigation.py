@@ -106,7 +106,7 @@ class TrackpadConfigurationTests(unittest.TestCase):
         self.assertIn("layers = <1>;", listener)
         self.assertIn("bindings = <&kp LC(EQUAL) &kp LC(MINUS)>;", listener)
         self.assertIn("layers = <2>;", listener)
-        self.assertIn("bindings = <&kp C_VOLUME_UP &kp C_VOLUME_DOWN>;", listener)
+        self.assertIn("bindings = <&kp C_VOLUME_DOWN &kp C_VOLUME_UP>;", listener)
 
     def test_auto_mouse_clicks_use_jop_and_thumb_hold_is_shift(self):
         keymap = (REPO_ROOT / "config" / "keymap.keymap").read_text(encoding="utf-8")
