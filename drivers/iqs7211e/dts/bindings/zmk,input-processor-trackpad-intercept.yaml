@@ -1,0 +1,17 @@
+description: Discard horizontal and double-tap events and keep each scroll burst on one layer
+
+compatible: "zmk,input-processor-trackpad-intercept"
+
+include: ip_zero_param.yaml
+
+properties:
+  zoom-layer:
+    type: int
+    required: true
+  volume-layer:
+    type: int
+    required: true
+  idle-ms:
+    type: int
+    required: true
+    description: Gap after which the next wheel event begins a new scroll burst

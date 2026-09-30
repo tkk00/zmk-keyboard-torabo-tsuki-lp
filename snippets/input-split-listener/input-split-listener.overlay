@@ -12,15 +12,33 @@
         };
     };
 
-    trackpad_transition_guard: trackpad_transition_guard {
-        compatible = "zmk,input-processor-trackpad-transition";
+    trackpad_intercept: trackpad_intercept {
+        compatible = "zmk,input-processor-trackpad-intercept";
         #input-processor-cells = <0>;
         zoom-layer = <1>;
         volume-layer = <2>;
-        zoom-key-position = <56>;
-        volume-key-position = <57>;
-        transition-guard-ms = <100>;
-        bindings = <&kp LA(LEFT_ARROW) &kp LC(N0) &kp C_MUTE>;
+        idle-ms = <150>;
+    };
+
+    trackpad_back_tap: trackpad_back_tap {
+        compatible = "zmk,input-processor-behaviors";
+        #input-processor-cells = <0>;
+        codes = <INPUT_BTN_3>;
+        bindings = <&kp LA(LEFT_ARROW)>;
+    };
+
+    trackpad_zoom_tap: trackpad_zoom_tap {
+        compatible = "zmk,input-processor-behaviors";
+        #input-processor-cells = <0>;
+        codes = <INPUT_BTN_3>;
+        bindings = <&kp LC(N0)>;
+    };
+
+    trackpad_mute_tap: trackpad_mute_tap {
+        compatible = "zmk,input-processor-behaviors";
+        #input-processor-cells = <0>;
+        codes = <INPUT_BTN_3>;
+        bindings = <&kp C_MUTE>;
     };
 
     // Positive wheel step first, negative wheel step second.
@@ -48,28 +66,31 @@
         device = <&pointing_device_split>;
         status = "okay";
         input-processors = <
-            &trackpad_transition_guard
+            &trackpad_intercept
             &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
             &trackpad_responsive_scroll 1 5
+            &trackpad_back_tap
         >;
 
         zoom {
             layers = <1>;
             input-processors = <
-                &trackpad_transition_guard
+                &trackpad_intercept
                 &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
                 &zip_scroll_scaler 1 3
                 &trackpad_zoom_scroll
+                &trackpad_zoom_tap
             >;
         };
 
         volume {
             layers = <2>;
             input-processors = <
-                &trackpad_transition_guard
+                &trackpad_intercept
                 &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
                 &zip_scroll_scaler 1 3
                 &trackpad_volume_scroll
+                &trackpad_mute_tap
             >;
         };
     };

@@ -30,25 +30,12 @@ class TrackpadNavigationTests(unittest.TestCase):
         self.assertNotIn("is_clicking", tap_path)
         self.assertNotIn("INPUT_BTN_0", tap_path)
 
-    def test_single_tap_is_emitted_without_double_tap_window(self):
+    def test_original_driver_tap_window_is_unchanged(self):
         source = driver_source()
-
-        self.assertRegex(
-            source,
-            r"#define\s+IQS7211E_SINGLE_TAP_CODE\s+INPUT_BTN_3\b",
-        )
-        self.assertNotIn("IQS7211E_DOUBLE_TAP_CODE", source)
-        self.assertNotIn("IQS7211E_TAP_SEQUENCE_MS", source)
-        self.assertNotIn("tap_work", source)
-        self.assertNotIn("single_tap_pending", source)
-        self.assertRegex(source, r"if \(tap_allowed[^}]+iqs7211e_emit_click\(data, IQS7211E_SINGLE_TAP_CODE\)")
-
-    def test_scroll_gesture_has_contact_markers_and_cannot_also_tap(self):
-        source = driver_source()
-        self.assertIn("IQS7211E_SCROLL_TOUCH_CODE INPUT_BTN_4", source)
-        self.assertIn("data->scroll_touch_active", source)
-        self.assertIn("input_report_key(dev, IQS7211E_SCROLL_TOUCH_CODE", source)
-        self.assertIn("!data->gesture_scrolled", source)
+        self.assertIn("IQS7211E_TAP_SEQUENCE_MS 400", source)
+        self.assertIn("IQS7211E_DOUBLE_TAP_CODE INPUT_BTN_4", source)
+        self.assertIn("tap_work", source)
+        self.assertNotIn("IQS7211E_SCROLL_TOUCH_CODE", source)
 
 
 class TrackpadConfigurationTests(unittest.TestCase):
@@ -108,16 +95,14 @@ class TrackpadConfigurationTests(unittest.TestCase):
             / "input-split-listener.overlay"
         ).read_text(encoding="utf-8")
 
-        self.assertIn("&trackpad_transition_guard", listener)
-        self.assertEqual(listener.count("&trackpad_transition_guard"), 3)
-        self.assertIn("bindings = <&kp LA(LEFT_ARROW) &kp LC(N0) &kp C_MUTE>;", listener)
-        self.assertIn("transition-guard-ms = <100>;", listener)
-        self.assertIn("zoom-key-position = <56>;", listener)
-        self.assertIn("volume-key-position = <57>;", listener)
-        transition = (REPO_ROOT / "src" / "input_processor_trackpad_transition.c").read_text(encoding="utf-8")
-        self.assertIn("event->code == IQS7211E_SCROLL_TOUCH_CODE", transition)
-        self.assertIn("data->scroll_mode_latched", transition)
-        self.assertIn("data->scroll_mode != current_mode(cfg)", transition)
+        self.assertEqual(listener.count("&trackpad_intercept"), 3)
+        self.assertIn("codes = <INPUT_BTN_3>;", listener)
+        self.assertIn("bindings = <&kp LA(LEFT_ARROW)>;", listener)
+        self.assertIn("bindings = <&kp LC(N0)>;", listener)
+        self.assertIn("bindings = <&kp C_MUTE>;", listener)
+        intercept = (REPO_ROOT / "src" / "input_processor_trackpad_intercept.c").read_text(encoding="utf-8")
+        self.assertIn("INPUT_REL_WHEEL", intercept)
+        self.assertIn("INPUT_BTN_4", intercept)
         self.assertIn("layers = <1>;", listener)
         self.assertIn("bindings = <&kp LC(EQUAL) &kp LC(MINUS)>;", listener)
         self.assertIn("layers = <2>;", listener)
@@ -132,6 +117,9 @@ class TrackpadConfigurationTests(unittest.TestCase):
         self.assertEqual(rows[1][8:12], ["&trans", "&mkp MB3", "&mkp MB2", "&trans"])
         self.assertEqual(rows[2][9:12], ["&mkp MB1", "&trans", "&trans"])
         self.assertEqual(layer6.count("&mkp MB"), 3)
+        self.assertIn("&kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)", layer6)
+        self.assertIn("35 // l", right)
+        self.assertIn("36 // minus", right)
         self.assertRegex(right, r"excluded-positions\s*=\s*<\s*21\s*// o\s*22\s*// p\s*33\s*// j")
         layer0 = keymap.split("layer_0 {")[1].split("};", 1)[0]
         self.assertIn("&mt LEFT_SHIFT LANGUAGE_1", layer0)
