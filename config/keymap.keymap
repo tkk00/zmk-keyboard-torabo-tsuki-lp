@@ -39,6 +39,13 @@
     combos {
         compatible = "zmk,combos";
 
+        auto_mouse_middle {
+            bindings = <&mkp MB3>;
+            key-positions = <63 64>;
+            layers = <6>;
+            timeout-ms = <75>;
+        };
+
         tap_mb4 {
             bindings = <&kp LANGUAGE_1>;
             key-positions = <33 34>;
@@ -204,9 +211,9 @@
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans     &trans     &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans                  &trans  &trans    &trans    &mkp MB3  &mkp MB2  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &mkp MB1  &trans     &kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &mkp MB1  &mkp MB1  &kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &kp LC(C)  &kp LC(V)  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans     &trans     &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans     &mkp MB1  &mkp MB2  &trans
             >;
         };
 

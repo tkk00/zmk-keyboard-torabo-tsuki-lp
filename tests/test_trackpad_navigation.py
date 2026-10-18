@@ -97,7 +97,9 @@ class TrackpadConfigurationTests(unittest.TestCase):
 
         self.assertEqual(listener.count("&trackpad_intercept"), 3)
         self.assertIn("codes = <INPUT_BTN_3>;", listener)
-        self.assertIn("bindings = <&kp LA(LEFT_ARROW)>;", listener)
+        self.assertNotIn("trackpad_back_tap", listener)
+        default_processors = listener.split('input-processors = <', 1)[1].split('>;', 1)[0]
+        self.assertIn("&trackpad_consumed_taps", default_processors)
         self.assertIn("bindings = <&kp LC(N0)>;", listener)
         self.assertIn("bindings = <&kp C_MUTE>;", listener)
         intercept = (REPO_ROOT / "src" / "input_processor_trackpad_intercept.c").read_text(encoding="utf-8")
@@ -108,21 +110,34 @@ class TrackpadConfigurationTests(unittest.TestCase):
         self.assertIn("layers = <2>;", listener)
         self.assertIn("bindings = <&kp C_VOLUME_DOWN &kp C_VOLUME_UP>;", listener)
 
-    def test_auto_mouse_clicks_use_jop_and_thumb_hold_is_shift(self):
+    def test_auto_mouse_clicks_and_thumb_hold_is_shift(self):
         keymap = (REPO_ROOT / "config" / "keymap.keymap").read_text(encoding="utf-8")
         right = (REPO_ROOT / "boards" / "shields" / "torabo_tsuki_lp" / "torabo_tsuki_lp_right.overlay").read_text(encoding="utf-8")
         layer6 = keymap.split("layer_6 {")[1].split("};", 1)[0]
         rows = [re.findall(r"&(?:trans|mkp MB[123]|kp LC\([CV]\))", line)
                 for line in layer6.splitlines() if line.startswith("&")]
         self.assertEqual(rows[1][8:12], ["&trans", "&mkp MB3", "&mkp MB2", "&trans"])
-        self.assertEqual(rows[2][9:12], ["&mkp MB1", "&trans", "&trans"])
-        self.assertEqual(layer6.count("&mkp MB"), 3)
+        self.assertEqual(rows[0][0], "&trans")
+        self.assertEqual(rows[2][9:12], ["&mkp MB1", "&mkp MB1", "&trans"])
+        self.assertEqual(rows[4][11:13], ["&mkp MB1", "&mkp MB2"])
+        self.assertEqual(layer6.count("&mkp MB"), 6)
+        middle_combo = keymap.split("auto_mouse_middle {")[1].split("};", 1)[0]
+        self.assertIn("bindings = <&mkp MB3>;", middle_combo)
+        self.assertIn("key-positions = <63 64>;", middle_combo)
+        self.assertIn("layers = <6>;", middle_combo)
         self.assertIn("&kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)", layer6)
         self.assertIn("35 // l", right)
         self.assertIn("36 // minus", right)
+        self.assertIn("63 // esc", right)
+        self.assertIn("34 // k", right)
+        self.assertIn("64 // backslash", right)
         self.assertRegex(right, r"excluded-positions\s*=\s*<\s*21\s*// o\s*22\s*// p\s*33\s*// j")
         layer0 = keymap.split("layer_0 {")[1].split("};", 1)[0]
         self.assertIn("&mt LEFT_SHIFT LANGUAGE_1", layer0)
+
+    def test_q_p_does_not_embed_a_password_macro(self):
+        keymap = (REPO_ROOT / "config" / "keymap.keymap").read_text(encoding="utf-8")
+        self.assertNotIn("type_q_p_text", keymap)
 
     def test_trackpad_layer_keys_activate_their_hold_layer_immediately(self):
         keymap = (REPO_ROOT / "config" / "keymap.keymap").read_text(encoding="utf-8")

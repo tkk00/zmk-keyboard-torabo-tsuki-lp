@@ -20,13 +20,6 @@
         idle-ms = <150>;
     };
 
-    trackpad_back_tap: trackpad_back_tap {
-        compatible = "zmk,input-processor-behaviors";
-        #input-processor-cells = <0>;
-        codes = <INPUT_BTN_3>;
-        bindings = <&kp LA(LEFT_ARROW)>;
-    };
-
     trackpad_zoom_tap: trackpad_zoom_tap {
         compatible = "zmk,input-processor-behaviors";
         #input-processor-cells = <0>;
@@ -78,7 +71,7 @@
             &trackpad_intercept
             &zip_xy_transform (INPUT_TRANSFORM_X_INVERT | INPUT_TRANSFORM_Y_INVERT)
             &trackpad_responsive_scroll 1 5
-            &trackpad_back_tap
+            &trackpad_consumed_taps
         >;
 
         zoom {
