@@ -118,19 +118,12 @@ class TrackpadConfigurationTests(unittest.TestCase):
                 for line in layer6.splitlines() if line.startswith("&")]
         self.assertEqual(rows[1][8:12], ["&trans", "&mkp MB3", "&mkp MB2", "&trans"])
         self.assertEqual(rows[0][0], "&trans")
-        self.assertEqual(rows[2][9:12], ["&mkp MB1", "&mkp MB1", "&trans"])
-        self.assertEqual(rows[4][11:13], ["&mkp MB1", "&mkp MB2"])
-        self.assertEqual(layer6.count("&mkp MB"), 6)
-        middle_combo = keymap.split("auto_mouse_middle {")[1].split("};", 1)[0]
-        self.assertIn("bindings = <&mkp MB3>;", middle_combo)
-        self.assertIn("key-positions = <63 64>;", middle_combo)
-        self.assertIn("layers = <6>;", middle_combo)
-        self.assertIn("&kp LA(LEFT_ARROW)  &kp LA(RIGHT_ARROW)", layer6)
-        self.assertIn("35 // l", right)
-        self.assertIn("36 // minus", right)
-        self.assertIn("63 // esc", right)
-        self.assertIn("34 // k", right)
-        self.assertIn("64 // backslash", right)
+        self.assertEqual(rows[2][9:13], ["&mkp MB1", "&trans", "&trans", "&trans"])
+        self.assertEqual(rows[4][11:13], ["&trans", "&trans"])
+        self.assertEqual(layer6.count("&mkp MB"), 3)
+        self.assertNotIn("auto_mouse_middle", keymap)
+        layer5 = keymap.split("layer_5 {")[1].split("};", 1)[0]
+        self.assertRegex(layer5, r"&kp LA\(LEFT_ARROW\)\s+&trans\s+&kp LA\(RIGHT_ARROW\)")
         self.assertRegex(right, r"excluded-positions\s*=\s*<\s*21\s*// o\s*22\s*// p\s*33\s*// j")
         layer0 = keymap.split("layer_0 {")[1].split("};", 1)[0]
         self.assertIn("&mt LEFT_SHIFT LANGUAGE_1", layer0)

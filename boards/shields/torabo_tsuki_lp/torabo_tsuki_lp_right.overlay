@@ -10,13 +10,8 @@
         21 // o
         22 // p
         33 // j
-        34 // k
-        35 // l
-        36 // minus
         39 // shift
         53 // ctrl
-        63 // esc
-        64 // backslash
     >;
     require-prior-idle-ms = <200>;
 };
