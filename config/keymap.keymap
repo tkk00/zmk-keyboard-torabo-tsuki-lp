@@ -86,6 +86,14 @@
             bindings = <&kp ENTER>;
             key-positions = <36 35>;
         };
+
+        // Hold Y + P together to reach the system layer (layer 8).
+        // The idle requirement keeps a fast "py" (pya/pyu/pyo) mid-word from triggering it.
+        system_layer {
+            bindings = <&mo 8>;
+            key-positions = <18 22>;
+            require-prior-idle-ms = <300>;
+        };
     };
 
     macros {
@@ -231,9 +239,9 @@
         layer_5 {
             bindings = <
 &trans  &trans         &trans         &trans         &trans         &trans                                 &trans        &trans           &trans        &trans             &trans             &trans
-&trans  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                           &bt BT_SEL 0  &bt BT_SEL 1     &bt BT_SEL 2  &trans             &trans             &trans
-&trans  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4  &trans          &trans  &bt BT_CLR    &kp LA(LEFT_ARROW)        &trans        &kp LA(RIGHT_ARROW)          &kp C_MUTE         &trans
-&trans  &sys_reset     &bootloader    &bt BT_CLR     &trans         &trans         &studio_unlock  &trans  &trans        &kp LC(PAGE_UP)  &trans        &kp LC(PAGE_DOWN)  &kp C_VOLUME_UP    &trans
+&trans  &trans         &trans         &trans         &trans         &trans                                 &trans        &trans           &trans        &trans             &trans             &trans
+&trans  &trans         &trans         &trans         &trans         &trans         &trans          &trans  &trans        &kp LA(LEFT_ARROW)        &trans        &kp LA(RIGHT_ARROW)          &kp C_MUTE         &trans
+&trans  &trans         &trans         &trans         &trans         &trans         &studio_unlock  &trans  &trans        &kp LC(PAGE_UP)  &trans        &kp LC(PAGE_DOWN)  &kp C_VOLUME_UP    &trans
 &trans  &trans         &trans         &trans         &trans         &trans         &trans          &trans  &trans        &trans           &trans        &trans             &kp C_VOLUME_DOWN  &trans
             >;
         };
@@ -255,6 +263,20 @@
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            >;
+        };
+
+        // System layer: Bluetooth, reset and bootloader. Reachable only while Y and P
+        // are held together. Left-hand keys match the old layer 5:
+        // QWERT = select profile, ASDFG = disconnect profile, Z = reset, X = bootloader,
+        // C = clear current profile.
+        layer_8 {
+            bindings = <
+&none  &none          &none          &none          &none          &none                         &none  &none  &none  &none  &none  &none
+&none  &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4                  &none  &none  &none  &none  &none  &none
+&none  &bt BT_DISC 0  &bt BT_DISC 1  &bt BT_DISC 2  &bt BT_DISC 3  &bt BT_DISC 4  &none  &none  &none  &none  &none  &none  &none  &none
+&none  &sys_reset     &bootloader    &bt BT_CLR     &none          &none          &none  &none  &none  &none  &none  &none  &none  &none
+&none  &none          &none          &none          &none          &none          &none  &none  &none  &none  &none  &none  &none  &none
             >;
         };
     };
